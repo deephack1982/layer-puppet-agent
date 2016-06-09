@@ -121,8 +121,6 @@ class PuppetConfigs:
         charms.apt.add_source(self.puppet_apt_src, key=self.puppet_gpg_key)
         # Apt update to pick up the sources
         charms.apt.update()
-        # Queue the installation of appropriate puppet pkgs
-        charms.apt.queue_install(self.puppet_pkg_vers)
 
     def install_puppet(self):
         '''Install puppet
@@ -130,6 +128,8 @@ class PuppetConfigs:
         hookenv.status_set('maintenance',
                            'Installing puppet agent')
         self.install_puppet_apt_src()
+        # Queue the installation of appropriate puppet pkgs
+        charms.apt.queue_install(self.puppet_pkg_vers)
         charms.apt.install_queued()
 
     def configure_puppet(self):

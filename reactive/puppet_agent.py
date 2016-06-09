@@ -21,7 +21,6 @@ config = hookenv.config()
 @when('config.set.puppet-server')
 @when_not('puppet-agent.installed')
 def install_puppet_agent():
-
     '''Install puppet agent
     '''
     p = PuppetConfigs()
@@ -40,10 +39,15 @@ def masterless_puppet():
     Set the `puppet.available` state so that other layers can
     gate puppet operations for masterless puppet state (unconfigured)
     '''
-    hookenv.status_set('active',
-                       'Masterless puppet configued')
+    hookenv.status_set('maintenance',
+                       'Configuring puppet repository')
+    p = PuppetConfigs()
+    # Configure puppet repo
+    p.install_puppet_apt_src()
     charms.apt.queue_install(['puppet-common'])
     charms.apt.install_queued()
+    hookenv.status_set('active',
+                       'Masterless puppet configued')
     set_state('puppet.available')
 
 
