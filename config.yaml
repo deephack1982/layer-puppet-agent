@@ -1,16 +1,11 @@
 options:
-  puppet-version:
-    type: int
-    default: 4 
-    description: |
-      Puppet version choices are `3` or `4`.
   pin-puppet:
     type: string
     default: ''
     description: |
       This will override the system default for the
-      general version of puppet specified by the 
-      puppet-version config parameter.
+      general version of puppet specified by the
+      puppet-version layer option.
   environment:
     type: string
     default: production

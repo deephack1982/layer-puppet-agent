@@ -4,6 +4,7 @@
 import os
 from subprocess import call
 
+from charms import layer
 from charmhelpers.core.templating import render
 from charmhelpers.core import hookenv
 from charmhelpers.core.host import lsb_release
@@ -16,7 +17,8 @@ config = hookenv.config()
 
 class PuppetConfigs:
     def __init__(self):
-        self.version = config['puppet-version']
+        self.options = layer.options('puppet-agent')
+        self.version = self.options.get('puppet-version')
         self.puppet_base_url = 'http://apt.puppetlabs.com'
         self.puppet_conf = 'puppet.conf'
         self.auto_start = ('yes', 'no')
@@ -26,7 +28,7 @@ class PuppetConfigs:
         self.puppet_pkg_vers = ''
         self.puppet_gpg_key = config['puppet-gpg-key']
 
-        if config['puppet-version'] == 4:
+        if self.version == '4':
             self.puppet_pkgs = ['puppet-agent']
             self.puppet_purge_pkgs = ['puppet', 'puppet-common']
             if config['pin-puppet']:
@@ -44,7 +46,7 @@ class PuppetConfigs:
             self.enable_puppet_cmd = \
                 ('%s resource service puppet ensure=running '
                  'enable=%s' % (self.puppet_exe, self.ensure_running))
-        elif config['puppet-version'] == 3:
+        elif self.version == '3':
             self.puppet_pkgs = ['puppet', 'puppet-common']
             self.puppet_purge_pkgs = ['puppet-agent']
             if config['pin-puppet']:
