@@ -4,6 +4,7 @@
 import os
 import shutil
 
+from charms import layer
 from charms.reactive import when
 from charms.reactive import when_not
 from charms.reactive import set_state
@@ -35,8 +36,7 @@ def install_puppet_agent():
 @when_not('config.set.puppet-server', 'puppet.available')
 @when_not('apt.installed.puppet-common')
 def masterless_puppet():
-    '''
-    Set the `puppet.available` state so that other layers can
+    '''Set the `puppet.available` state so that other layers can
     gate puppet operations for masterless puppet state (unconfigured)
     '''
     hookenv.status_set('maintenance',
@@ -54,8 +54,10 @@ def masterless_puppet():
 @when_none('puppet-agent.installed', 'config.set.puppet-server')
 @when('puppet.available', 'apt.installed.puppet-common')
 def masterless_avail():
-    hookenv.status_set('active',
-                       'Masterless puppet configued')
+    cfg = layer.options('puppet-agent')
+    if not cfg.get('silent'):
+        hookenv.status_set('active',
+                           'Masterless puppet configued')
 
 
 @when('config.set.puppet-server')

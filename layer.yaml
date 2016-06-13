@@ -8,3 +8,11 @@ defines:
     default: '4'
     description: |
       Puppet version choices are `3` or `4`.
+  silent:
+    description: |
+      When true, suppress select puppet-agent status messages. This is useful
+      when puppet-agent is an intermediate layer and you do not want status
+      messages from this layer to overwrite status from layers above.
+      States are not affected.
+    type: boolean
+    default: false
