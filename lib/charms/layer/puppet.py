@@ -70,7 +70,8 @@ class PuppetConfigs:
 
         self.puppet_conf_ctxt = {
             'environment': config['environment'],
-            'puppet_server': config['puppet-server']
+            'puppet_server': config['puppet-server'],
+            'stringify_facts': config['stringify-facts']
         }
         if config['ca-server']:
             self.puppet_conf_ctxt['ca_server'] = config['ca-server']

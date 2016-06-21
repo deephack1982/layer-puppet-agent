@@ -1,4 +1,9 @@
 options:
+  stringify-facts:
+    type: string
+    default: 'false'
+    description: |
+      Stringify puppet facts
   pin-puppet:
     type: string
     default: ''
