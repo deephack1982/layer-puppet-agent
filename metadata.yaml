@@ -1,0 +1,13 @@
+name: puppet-agent
+subordinate: true
+summary: Provides Puppet-Agent.
+maintainer: James Beedy <jamesbeedy@gmail.com>
+description: |
+  This is a subordinate charm that installs and manages puppet-agent
+tags:
+- ops
+- puppet
+requires:
+  juju-info:
+    interface: juju-info
+    scope: container
